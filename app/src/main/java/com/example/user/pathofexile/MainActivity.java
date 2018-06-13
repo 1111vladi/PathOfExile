@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1303,8 +1304,21 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject c = contacts.getJSONObject(i);
 
 
-                        JSONObject info = c.getJSONObject("info");
+                        // Full name Items
+                        JSONObject source = c.getJSONObject("_source");
+                        JSONObject shop = source.getJSONObject("shop");
+                        JSONObject info = source.getJSONObject("info");
+                        JSONObject tokenized = info.getJSONObject("tokenized");
                         String fullName = info.getString("fullName");
+
+
+
+                        // Level of items
+
+
+                        /*JSONObject stash = shop.getJSONObject("stash");*/
+                        /*JSONObject requirements = source.getJSONObject("requirements");
+                        String lvl = requirements.getString("Level");*/
 
 
 
@@ -1314,7 +1328,12 @@ public class MainActivity extends AppCompatActivity {
                         HashMap<String, String> contact = new HashMap<>();
 
                         // adding each child node to HashMap key => value
+
+
                         contact.put("fullName", fullName);
+                        /*contact.put("Level", lvl);*/
+
+
 
                         // adding contact to contact list
                         contactList.add(contact);
@@ -1351,8 +1370,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(MainActivity.this, contactList,
-                    R.layout.list_item, new String[]{ "fullName"},
-                    new int[]{R.id.fullName});
+                    R.layout.list_item, new String[]{ "fullName","Level"},
+                    new int[]{R.id.lvl, R.id.fullName});
             lv.setAdapter(adapter);
         }
     }
